@@ -1,8 +1,11 @@
 import { useState, useEffect } from "react";
 import "./App.scss";
+import queryString from "query-string";
 import TodoList from "./Components/TodoList/index";
 import TodoForm from "./Components/TodoForm/index";
 import PostList from "./Components/PostList/index";
+import Pagination from "./Components/Pagination";
+import axios from "axios";
 
 function App() {
   const [todoList, setTodoList] = useState([
@@ -13,22 +16,44 @@ function App() {
 
   const [postList, setPostList] = useState([]);
 
+  // Phan trang
+  const [pagination, setPagination] = useState({
+    _page: 1,
+    _limit: 10,
+    _totalRows: 1,
+  });
+
+  const [filter, setFilter] = useState({
+    _limit: 10,
+    _page: 1,
+  });
+
+  function handlePageChange(newPage) {
+    setFilter({
+      ...filter,
+      _page: newPage,
+    });
+  }
+
   useEffect(() => {
     async function fetchPostList() {
-      try {
-        const requestUrl =
-          "http://js-post-api.herokuapp.com/api/posts?_limit=10&_page=1";
-        const response = await fetch(requestUrl);
-        const responseJSON = await response.json();
-        const { data } = responseJSON;
-        setPostList(data);
-      } catch (error) {
-        console.log("Error");
-      }
+      const paramString = queryString.stringify(filter);
+      axios
+        .get(`http://js-post-api.herokuapp.com/api/posts?${paramString}`)
+        .then(function (response) {
+          const { data, pagination } = response.data;
+          setPostList(data);
+          setPagination(pagination);
+        })
+        .catch(function (error) {
+          console.log(error);
+        })
+        .then(function () {});
     }
     fetchPostList();
-  }, []);
+  }, [filter]);
 
+  // Delete todo
   function handleTodo(todo) {
     const index = todoList.findIndex((x) => x.id === todo.id);
     if (index < 0) return;
@@ -37,6 +62,7 @@ function App() {
     setTodoList(newTodoList);
   }
 
+  // Add todo
   function handleTodoForm(formValue) {
     const newTodo = {
       id: todoList.length + 1,
@@ -45,8 +71,6 @@ function App() {
       // ...formValue,
     };
     const newTodoList = [...todoList];
-    console.log(newTodo);
-    console.log(newTodoList);
     newTodoList.push(newTodo);
     setTodoList(newTodoList);
   }
@@ -55,6 +79,7 @@ function App() {
     <div className="app">
       <h1>React Hooks PostList</h1>
       <PostList posts={postList} />
+      <Pagination pagination={pagination} onPageChange={handlePageChange} />
       {/* <TodoForm onSubmited={handleTodoForm} /> */}
       {/* <TodoList todos={todoList} onTodoClick={handleTodo} /> */}
     </div>
