@@ -5,6 +5,7 @@ import TodoList from "./Components/TodoList/index";
 import TodoForm from "./Components/TodoForm/index";
 import PostList from "./Components/PostList/index";
 import Pagination from "./Components/Pagination";
+import PostFilterForm from "./Components/PostFilterForm/index"
 import axios from "axios";
 
 function App() {
@@ -75,9 +76,18 @@ function App() {
     setTodoList(newTodoList);
   }
 
+  function handleFilterChange(newFilter) {
+    setFilter({
+      ...filter,
+      _page: 1,
+      title_like: newFilter.searchTerm
+    });
+  }
+
   return (
     <div className="app">
-      <h1>React Hooks PostList</h1>
+      <h1>React Hooks Search debounce</h1>
+      <PostFilterForm onSubmit={handleFilterChange} />
       <PostList posts={postList} />
       <Pagination pagination={pagination} onPageChange={handlePageChange} />
       {/* <TodoForm onSubmited={handleTodoForm} /> */}
