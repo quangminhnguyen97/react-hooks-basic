@@ -7,6 +7,7 @@ import PostList from "./Components/PostList/index";
 import Pagination from "./Components/Pagination";
 import PostFilterForm from "./Components/PostFilterForm/index"
 import axios from "axios";
+import Clock from './Components/Clock/index';
 
 function App() {
   const [todoList, setTodoList] = useState([
@@ -86,10 +87,11 @@ function App() {
 
   return (
     <div className="app">
-      <h1>React Hooks Search debounce</h1>
-      <PostFilterForm onSubmit={handleFilterChange} />
+      <h1>React Hooks Clock</h1>
+      <Clock />
+      {/* <PostFilterForm onSubmit={handleFilterChange} />
       <PostList posts={postList} />
-      <Pagination pagination={pagination} onPageChange={handlePageChange} />
+      <Pagination pagination={pagination} onPageChange={handlePageChange} /> */}
       {/* <TodoForm onSubmited={handleTodoForm} /> */}
       {/* <TodoList todos={todoList} onTodoClick={handleTodo} /> */}
     </div>
