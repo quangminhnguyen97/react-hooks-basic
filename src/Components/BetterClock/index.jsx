@@ -1,14 +1,15 @@
 import React from 'react';
 import useClock from '../../hooks/useClock'
-Clock.propTypes = {};
+import './style.scss';
+
 
 function Clock() {
     const { timeString } = useClock()
 
     return (
-        <p>
-            {timeString}
-        </p>
+        <div className="betterClock">
+            <p className="betterClock-content">{timeString}</p>
+        </div>
     );
 }
 
