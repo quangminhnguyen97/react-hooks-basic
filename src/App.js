@@ -9,6 +9,7 @@ import PostFilterForm from "./Components/PostFilterForm/index"
 import axios from "axios";
 import Clock from './Components/Clock/index';
 import BetterClock from './Components/BetterClock/index';
+import MagicColor from './Components/MagicColor/index';
 
 function App() {
   const [todoList, setTodoList] = useState([
@@ -89,8 +90,9 @@ function App() {
   return (
     <div className="app">
       <h1>React Hooks Clock</h1>
-      <Clock />
-      <BetterClock />
+      <MagicColor />
+      {/* <Clock />
+      <BetterClock /> */}
       {/* <PostFilterForm onSubmit={handleFilterChange} />
       <PostList posts={postList} />
       <Pagination pagination={pagination} onPageChange={handlePageChange} /> */}
